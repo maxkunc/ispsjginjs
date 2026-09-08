@@ -1,3 +1,5 @@
+import { toDotFontSafe } from '../lib/dotFontSafe.js'
+
 /** Renders a value in the dot-matrix "LED Dots" font, used everywhere the
  * reference design shows a big segmented number (grades, percentages, counts).
  */
@@ -6,7 +8,7 @@ export default function DotNumber({ value, suffix = '', className = '' }) {
 
   return (
     <span className={`font-dots leading-none tabular-nums ${className}`}>
-      {display}
+      {toDotFontSafe(display)}
       {suffix}
     </span>
   )
