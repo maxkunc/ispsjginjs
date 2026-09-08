@@ -71,7 +71,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#e8e6e1]" id="top">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#e8e6e1]" id="top">
       <header className="flex items-center justify-between px-4 sm:px-8 py-5">
         <div className="font-dots text-lg sm:text-xl tracking-widest text-black/80">is・psjg</div>
         <div className="flex items-center gap-3">
@@ -88,13 +88,24 @@ export default function Dashboard() {
 
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-8">
         <div className="grid grid-cols-12 gap-4 sm:gap-5">
+          {/* Primary stats: bigger, bolder */}
           <BentoCard
             gradient="green"
-            className={QUARTER}
+            large
+            className={HALF}
             title={t('average')}
             subtitle={stats?.subject_count != null ? `${stats.subject_count} ${t('subjectsSub').toLowerCase()}` : t('averageSub')}
             value={<DotNumber value={stats?.avg_grade} />}
             footer={t('average')}
+          />
+
+          <BentoCard
+            gradient="skyblue"
+            large
+            className={HALF}
+            title={t('overall')}
+            value={<DotNumber value={overallPct} suffix="%" />}
+            footer={t('overallSub')}
           />
 
           <BentoCard
@@ -116,16 +127,8 @@ export default function Dashboard() {
           />
 
           <BentoCard
-            gradient="skyblue"
-            className={QUARTER}
-            title={t('overall')}
-            value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-3xl" />}
-            footer={t('overallSub')}
-          />
-
-          <BentoCard
             gradient="purple"
-            className="col-span-12"
+            className={HALF}
             title={t('bestSubject')}
             subtitle={t('bestSubjectSub')}
             visual="wave"
@@ -133,19 +136,13 @@ export default function Dashboard() {
             value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl" />}
           />
 
-          <HeroCard
-            className="col-span-12"
-            t={t}
-            avgGradeRounded={stats?.avg_grade_rounded}
-            studentLabel={studentLabel}
-            semesters={data?.semesters}
-            selectedSemester={selectedSemesterLabel}
-            onSemesterChange={switchSemester}
-          />
+          <HeroCard className="col-span-12" avgGradeRounded={stats?.avg_grade_rounded} studentLabel={studentLabel} />
 
+          {/* Primary: portfolio points, bigger/bolder */}
           <BentoCard
             gradient="teal"
-            className={QUARTER}
+            large
+            className={HALF}
             title={t('portfolioPoints')}
             subtitle={t('portfolioPointsSub')}
             value={<DotNumber value={portfolio?.points} />}
@@ -161,32 +158,35 @@ export default function Dashboard() {
             value={<DotNumber value={portfolio?.place} suffix="." />}
           />
 
+          {/* Semester switcher lives here now, not in the hero card */}
           <BentoCard
             gradient="yellow"
-            className={HALF}
+            className={QUARTER}
             title={t('semester')}
             subtitle={t('semesterSub')}
             visual="slider"
             visualProps={{ markerPct: data?.selectedSemester ? ((data.selectedSemester % 2 === 0 ? 75 : 25)) : 50 }}
-            value={
-              <DotNumber
-                value={selectedSemesterLabel?.split(' - ')[1] ?? '–'}
-                className="text-sm sm:text-lg"
-              />
-            }
-          />
+          >
+            <div className="my-1">
+              {data?.semesters?.length > 0 ? (
+                <select
+                  value={selectedSemesterLabel}
+                  onChange={(e) => switchSemester(e.target.value)}
+                  className="w-full rounded-full bg-black/15 text-white text-xs sm:text-sm px-3 py-2 outline-none ring-1 ring-white/20"
+                >
+                  {data.semesters.map((s) => (
+                    <option key={s.index} value={s.label} className="text-black">
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div className="font-dots text-lg leading-none">–</div>
+              )}
+            </div>
+          </BentoCard>
 
-          <ScheduleWidget className={HALF} grades={data?.grades} t={t} />
-
-          <BentoCard
-            gradient="brown"
-            className={HALF}
-            title={t('overall')}
-            visual="slider"
-            visualProps={{ markerPct: overallPct ?? 0 }}
-            value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-4xl" />}
-            footer={t('overallSub')}
-          />
+          <ScheduleWidget className="col-span-12" grades={data?.grades} t={t} />
         </div>
       </div>
 

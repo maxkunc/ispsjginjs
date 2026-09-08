@@ -5,7 +5,7 @@ export default function ScheduleWidget({ className = '', grades, t }) {
   const rows = (grades ?? []).slice(0, 2)
 
   return (
-    <div className={`rounded-[28px] grad-purple p-4 sm:p-5 min-h-[150px] text-white flex flex-col shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] ${className}`}>
+    <div className={`rounded-[28px] grad-purple p-4 sm:p-5 min-h-[150px] text-white flex flex-col overflow-hidden shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] ${className}`}>
       <div className="text-[11px] uppercase tracking-wide text-white/60 mb-2">{t('recentGrades')}</div>
 
       <div className="flex-1 space-y-2 overflow-hidden">
@@ -25,12 +25,6 @@ export default function ScheduleWidget({ className = '', grades, t }) {
             <DotNumber value={row.percentage} className="text-xs shrink-0" />
           </div>
         ))}
-      </div>
-
-      <div className="mt-3 flex items-center gap-2">
-        <div className="flex-1 h-1.5 rounded-full bg-white/15 overflow-hidden">
-          <div className="h-full w-2/3 rounded-full bg-white/70" />
-        </div>
       </div>
     </div>
   )

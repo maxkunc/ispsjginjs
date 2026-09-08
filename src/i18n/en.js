@@ -14,8 +14,6 @@ export default {
   errorUnknown: 'Something went wrong, try reloading',
   loading: 'Loading…',
 
-  navDashboard: 'Dashboard',
-  navPortfolio: 'Portfolio',
   navExams: 'Exams',
 
   average: 'Average',

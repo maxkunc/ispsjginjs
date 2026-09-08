@@ -33,7 +33,7 @@ function SubjectRow({ subject, t }) {
         >
           {subject.knownGrade || '–'}
         </span>
-        <span className="flex-1 text-sm truncate">{subject.name}</span>
+        <span className="flex-1 min-w-0 text-sm truncate">{subject.name}</span>
         <DotNumber value={subject.percentage} suffix="%" className="text-sm text-black/60 hidden sm:inline" />
         <DotNumber value={subject.points} className="text-sm text-black/40 hidden sm:inline" />
         <span className="text-black/30 text-xs">{open ? '▴' : '▾'}</span>
@@ -53,7 +53,7 @@ function SubjectRow({ subject, t }) {
                   >
                     {g.grade ?? '–'}
                   </span>
-                  <span className="flex-1 truncate">{g.description || g.name}</span>
+                  <span className="flex-1 min-w-0 truncate">{g.description || g.name}</span>
                   <span className="text-black/40 shrink-0">{g.date}</span>
                   <DotNumber value={g.percentage} className="text-black/60 shrink-0" />
                 </div>
@@ -133,16 +133,16 @@ function PortfolioPanel({ portfolio, loading, error, onRetry, t }) {
     <div className="space-y-3">
       {portfolio.data.map((cat, i) => (
         <div key={i} className="rounded-2xl bg-black/[0.04] p-3">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-sm font-semibold">{cat.name}</span>
-            <span className="text-xs rounded-full bg-black/10 px-2 py-0.5">
+          <div className="flex items-center justify-between gap-2 mb-1.5">
+            <span className="flex-1 min-w-0 text-sm font-semibold truncate">{cat.name}</span>
+            <span className="shrink-0 text-xs rounded-full bg-black/10 px-2 py-0.5">
               {cat.points} {t('points')}
             </span>
           </div>
           <div className="space-y-1">
             {cat.items.map((item, j) => (
               <div key={j} className="flex items-center gap-2 text-xs">
-                <span className="flex-1 truncate">{item.name}</span>
+                <span className="flex-1 min-w-0 truncate">{item.name}</span>
                 <span className="text-black/40 truncate max-w-[45%]">{item.description}</span>
                 <span className="text-black/50 shrink-0">
                   {item.points} {t('points')}
@@ -175,7 +175,7 @@ function ExamsPanel({ exams, loading, error, onRetry, t }) {
         <div key={i} className="flex items-center gap-3 rounded-xl bg-black/[0.04] px-3 py-2 text-xs sm:text-sm">
           <span className="flex-1 min-w-0 truncate">{exam.name}</span>
           <span className="text-black/40 truncate max-w-[30%]">{exam.subject}</span>
-          <span className="text-black/40 hidden sm:inline">{exam.group}</span>
+          <span className="text-black/40 hidden sm:inline truncate max-w-[20%]">{exam.group}</span>
           <span className="text-black/40 shrink-0">{exam.date}</span>
         </div>
       ))}

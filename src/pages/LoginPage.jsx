@@ -30,7 +30,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#e8e6e1] flex flex-col">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#e8e6e1] flex flex-col">
       <header className="flex items-center justify-between px-6 py-5 sm:px-10">
         <div className="font-dots text-xl tracking-widest text-black/80">is・psjg</div>
         <LanguageSwitch />

@@ -23,7 +23,6 @@ function Wave({ markerPct = 60 }) {
         strokeWidth="1.5"
       />
       <line x1={markerPct * 2} y1="2" x2={markerPct * 2} y2="38" stroke="currentColor" strokeWidth="2" />
-      <polygon points={`${markerPct * 2 - 4},2 ${markerPct * 2 + 4},2 ${markerPct * 2},9`} fill="currentColor" />
     </svg>
   )
 }
@@ -34,7 +33,7 @@ function Slider({ markerPct = 50 }) {
       {Array.from({ length: 34 }).map((_, i) => (
         <line key={i} x1={i * 6} y1="4" x2={i * 6} y2="16" stroke="currentColor" strokeOpacity="0.35" strokeWidth="1.5" />
       ))}
-      <polygon points={`${markerPct * 2 - 5},18 ${markerPct * 2 + 5},18 ${markerPct * 2},24`} fill="currentColor" />
+      <line x1={markerPct * 2} y1="2" x2={markerPct * 2} y2="22" stroke="currentColor" strokeWidth="2" />
     </svg>
   )
 }
@@ -81,7 +80,9 @@ function Scatter({ seed = 1, count = 22 }) {
 
 /**
  * One bento widget - a normal grid item. `className` carries its grid
- * placement (e.g. "col-span-12 sm:col-span-6 lg:col-span-3").
+ * placement (e.g. "col-span-12 sm:col-span-6 lg:col-span-3"). `large`
+ * marks it as one of the dashboard's primary cards - bigger padding,
+ * bolder/larger title and value text.
  */
 export default function BentoCard({
   gradient = 'green',
@@ -93,16 +94,23 @@ export default function BentoCard({
   visual = 'none',
   visualProps = {},
   className = '',
+  large = false,
   children,
 }) {
   return (
     <div
-      className={`rounded-[28px] p-4 sm:p-5 min-h-[150px] text-white shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] flex flex-col justify-between overflow-hidden ${GRADIENTS[gradient]} ${className}`}
+      className={`rounded-[28px] text-white shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] flex flex-col justify-between overflow-hidden ${GRADIENTS[gradient]} ${
+        large ? 'p-5 sm:p-7 min-h-[190px]' : 'p-4 sm:p-5 min-h-[150px]'
+      } ${className}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          {title && <div className="text-[13px] sm:text-sm font-semibold leading-tight">{title}</div>}
-          {subtitle && <div className="text-[11px] sm:text-xs text-white/70 leading-tight">{subtitle}</div>}
+          {title && (
+            <div className={large ? 'text-base sm:text-lg font-bold leading-tight' : 'text-[13px] sm:text-sm font-semibold leading-tight'}>
+              {title}
+            </div>
+          )}
+          {subtitle && <div className={large ? 'text-xs sm:text-sm text-white/70 leading-tight' : 'text-[11px] sm:text-xs text-white/70 leading-tight'}>{subtitle}</div>}
         </div>
         {cornerLabel && <div className="text-[10px] text-white/50">{cornerLabel}</div>}
       </div>
@@ -110,7 +118,7 @@ export default function BentoCard({
       {children ?? (
         <div className="flex items-center gap-2 my-1">
           {visual === 'dial' && <Dial {...visualProps} />}
-          <div className="text-2xl sm:text-4xl font-dots leading-none">{value}</div>
+          <div className={`font-dots leading-none ${large ? 'text-4xl sm:text-6xl' : 'text-2xl sm:text-4xl'}`}>{value}</div>
         </div>
       )}
 
@@ -118,7 +126,7 @@ export default function BentoCard({
         {visual === 'wave' && <Wave {...visualProps} />}
         {visual === 'slider' && <Slider {...visualProps} />}
         {visual === 'scatter' && <Scatter {...visualProps} />}
-        {footer && <div className="text-[11px] sm:text-xs text-white/60">{footer}</div>}
+        {footer && <div className={large ? 'text-xs sm:text-sm text-white/60' : 'text-[11px] sm:text-xs text-white/60'}>{footer}</div>}
       </div>
     </div>
   )

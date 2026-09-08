@@ -14,8 +14,6 @@ export default {
   errorUnknown: 'Něco se pokazilo, zkus obnovit stránku',
   loading: 'Načítám…',
 
-  navDashboard: 'Přehled',
-  navPortfolio: 'Portfolio',
   navExams: 'Zkoušení',
 
   average: 'Průměr',
