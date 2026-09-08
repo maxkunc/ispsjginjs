@@ -46,7 +46,7 @@ export default {
   refresh: 'Refresh',
   viewAll: 'All',
   subjectsPanel: 'Subjects',
-  subjectsPanelHint: 'Running grade · Report card grade',
+  subjectsPanelHint: 'Ringed = report card grade differs from the running grade',
   knownGrade: 'Running grade',
   finalGrade: 'Report card grade',
   gradesPanel: 'Grades',

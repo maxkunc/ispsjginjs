@@ -16,7 +16,7 @@ export default function ScheduleWidget({ className = '', grades, t }) {
               className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-dots shrink-0"
               style={{ background: gradeBackground(row.grade) }}
             >
-              {row.grade ?? '–'}
+              <span className="grade-dot-center">{row.grade ?? '–'}</span>
             </span>
             <div className="min-w-0 flex-1">
               <div className="text-xs truncate">{row.name || row.subject}</div>

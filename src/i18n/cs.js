@@ -46,7 +46,7 @@ export default {
   refresh: 'Obnovit',
   viewAll: 'Vše',
   subjectsPanel: 'Předměty',
-  subjectsPanelHint: 'Průběžná známka · Výsledná známka',
+  subjectsPanelHint: 'Kroužek = výsledná známka se liší od průběžné',
   knownGrade: 'Průběžná známka',
   finalGrade: 'Výsledná známka',
   gradesPanel: 'Známky',

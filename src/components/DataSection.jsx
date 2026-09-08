@@ -26,29 +26,22 @@ function SubjectRow({ subject, t }) {
 
   // "Výsledná známka" is an override the teacher fills in only when the
   // report-card grade differs from the running "Známka" - it's empty for
-  // most subjects even in a finished term. The grade that actually ends
-  // up on the report card is that override when present, otherwise just
-  // the running grade (confirmed live on is.psjg.cz, see
-  // docs/investigate-final-grade.md).
+  // most subjects even in a finished term. Show that override in place of
+  // the running grade when present (confirmed live on is.psjg.cz, see
+  // docs/investigate-final-grade.md), ringed to flag that it's not just
+  // the plain running grade.
   const isOverride = Boolean(subject.finalGrade)
-  const finalGrade = subject.finalGrade || subject.knownGrade
+  const displayGrade = subject.finalGrade || subject.knownGrade
 
   return (
     <div className="rounded-2xl bg-black/[0.04] hover:bg-black/[0.06] transition">
       <button type="button" onClick={toggle} className="w-full flex items-center gap-3 px-4 py-3 text-left">
         <span
-          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-dots shrink-0 text-white"
-          style={{ background: gradeBackground(Number(subject.knownGrade)) }}
-          title={t('knownGrade')}
-        >
-          <span className="inline-block leading-none translate-y-[1.5px]">{subject.knownGrade || '–'}</span>
-        </span>
-        <span
           className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-dots shrink-0 text-white ${isOverride ? 'ring-2 ring-red-500' : ''}`}
-          style={{ background: gradeBackground(Number(finalGrade)) }}
-          title={t('finalGrade')}
+          style={{ background: gradeBackground(Number(displayGrade)) }}
+          title={isOverride ? t('finalGrade') : t('knownGrade')}
         >
-          <span className="inline-block leading-none translate-y-[1.5px]">{finalGrade || '–'}</span>
+          <span className="grade-dot-center">{displayGrade || '–'}</span>
         </span>
         <span className="flex-1 min-w-0 text-sm truncate">{subject.name}</span>
         <DotNumber value={subject.percentage} className="text-sm text-black/60 hidden sm:inline" />
@@ -68,7 +61,7 @@ function SubjectRow({ subject, t }) {
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-dots text-white shrink-0"
                     style={{ background: gradeBackground(g.grade) }}
                   >
-                    <span className="inline-block leading-none translate-y-[1.5px]">{g.grade ?? '–'}</span>
+                    <span className="grade-dot-center">{g.grade ?? '–'}</span>
                   </span>
                   <span className="flex-1 min-w-0 truncate">{g.description || g.name}</span>
                   <span className="text-black/40 shrink-0">{g.date}</span>
@@ -96,7 +89,7 @@ function GradesTable({ grades, page, t, onPage }) {
               className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-dots text-white shrink-0"
               style={{ background: gradeBackground(row.grade) }}
             >
-              <span className="inline-block leading-none translate-y-[1.5px]">{row.grade ?? '–'}</span>
+              <span className="grade-dot-center">{row.grade ?? '–'}</span>
             </span>
             <span className="flex-1 min-w-0 truncate">{row.name}</span>
             <span className="text-black/40 hidden sm:inline truncate max-w-[30%]">{row.subject}</span>

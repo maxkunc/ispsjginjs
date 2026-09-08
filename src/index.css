@@ -77,3 +77,16 @@ body {
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { scrollbar-width: none; }
+
+/* Flex/grid centering (items-center + justify-center) only centers a
+   glyph's advance-width box, not its visual ink - led_counter-7 is
+   monospaced with the same asymmetric side bearing on every digit and
+   the dash, measured via canvas ink-bbox analysis (identical offset on
+   every glyph 0-9 and "-", so one fixed em-based correction covers all
+   of them; em units keep it correct at every badge size). Use this on
+   the inner span of any circular grade badge. */
+.grade-dot-center {
+  display: inline-block;
+  line-height: 1;
+  transform: translate(0.0575em, 0.0975em);
+}
