@@ -12,7 +12,7 @@ export default {
   errorUpstream: 'is.psjg.cz is not responding right now, try again',
   errorConnection: "The server can't reach is.psjg.cz (backend network/firewall) - check the server log",
   errorUnknown: 'Something went wrong, try reloading',
-  loading: 'Loading…',
+  loading: 'Loading...',
 
   navExams: 'Exams',
 
