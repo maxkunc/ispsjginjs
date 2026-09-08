@@ -2,14 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import LanguageSwitch from '../components/LanguageSwitch.jsx'
-import { ApiError } from '../api/client.js'
-
-const ERROR_KEYS = {
-  invalid_credentials: 'errorInvalidCredentials',
-  missing_credentials: 'errorMissing',
-  upstream_error: 'errorUpstream',
-  ssl_error: 'errorUpstream',
-}
+import { errorToI18nKey } from '../lib/errorKey.js'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -30,8 +23,7 @@ export default function LoginPage() {
     try {
       await login(username, password)
     } catch (err) {
-      const code = err instanceof ApiError ? err.message : 'errorUnknown'
-      setErrorKey(ERROR_KEYS[code] ?? 'errorUnknown')
+      setErrorKey(errorToI18nKey(err))
     } finally {
       setSubmitting(false)
     }

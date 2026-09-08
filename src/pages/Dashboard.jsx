@@ -13,6 +13,7 @@ import GlowCTA from '../components/GlowCTA.jsx'
 import DotNumber from '../components/DotNumber.jsx'
 import DataSection from '../components/DataSection.jsx'
 import { parsePercent } from '../lib/parsePercent.js'
+import { errorToI18nKey } from '../lib/errorKey.js'
 
 // Absolute position of each widget inside the composition canvas, as % of
 // the canvas box - mirrors the reference "AI OS" bento layout.
@@ -73,7 +74,7 @@ export default function Dashboard() {
   if (error && !data) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#e8e6e1] px-4 text-center">
-        <p className="text-sm text-black/60">{t('errorUnknown')}</p>
+        <p className="text-sm text-black/60">{t(errorToI18nKey(error))}</p>
         <button type="button" onClick={refresh} className="rounded-full bg-black text-white text-sm px-4 py-2">
           {t('refresh')}
         </button>

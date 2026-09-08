@@ -10,6 +10,7 @@ export default {
   errorInvalidCredentials: 'Neplatné přihlašovací jméno nebo heslo',
   errorMissing: 'Vyplň prosím jméno i heslo',
   errorUpstream: 'is.psjg.cz momentálně neodpovídá, zkus to znovu',
+  errorConnection: 'Server se nemůže připojit k is.psjg.cz (síť/firewall backendu) - zkontroluj log serveru',
   errorUnknown: 'Něco se pokazilo, zkus obnovit stránku',
   loading: 'Načítám…',
 
