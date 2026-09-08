@@ -30,6 +30,17 @@
   --font-dots: "LED Dots", ui-monospace, monospace;
 }
 
+/* led_counter-7 is a single static weight - relying on font-weight: 700
+   to render it bold meant relying on each browser's own synthetic-bold
+   heuristic, which some platforms apply and others don't, so the same
+   number looked full-weight on one device and thin on another. Thicken
+   every glyph explicitly and identically everywhere with a proportional
+   (em-based, so it scales with font-size) text stroke instead. */
+.font-dots {
+  -webkit-text-stroke: 0.05em currentColor;
+  paint-order: stroke fill;
+}
+
 :root {
   color-scheme: light;
 }
