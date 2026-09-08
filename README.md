@@ -38,12 +38,19 @@ CORS setup is needed locally. Override the proxy target with
 
 ## Deploying
 
-Build with `npm run build` (outputs to `dist/`) and serve as a static site.
-Set `VITE_API_URL` (see `.env.example`) to the deployed backend's full
-`/api` URL if the frontend and backend live on different domains - and see
-the backend README for the `FRONTEND_ORIGIN` / `SESSION_COOKIE_SAMESITE` /
-`SESSION_COOKIE_SECURE` settings that cross-origin deployment needs on its
-side.
+**The recommended path is not to deploy this repo directly.** The backend's
+`Dockerfile` builds this repo and serves it itself (see openschoolsucks'
+README > Deployment), so the whole app is one service on one origin, with
+no `VITE_API_URL`/CORS to configure - just deploy the backend and this
+repo comes along automatically at build time.
+
+Deploying this repo on its own (e.g. to iterate on the UI without
+rebuilding the backend image each time) still works: build with
+`npm run build` (outputs to `dist/`) and serve as a static site. Set
+`VITE_API_URL` (see `.env.example`) to the deployed backend's full `/api`
+URL, and see the backend README for the `FRONTEND_ORIGIN` /
+`SESSION_COOKIE_SAMESITE` / `SESSION_COOKIE_SECURE` settings that
+cross-origin deployment needs on its side.
 
 ## Structure
 
