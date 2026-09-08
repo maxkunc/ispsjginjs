@@ -11,11 +11,13 @@ import DotNumber from '../components/DotNumber.jsx'
 import DataSection from '../components/DataSection.jsx'
 import { parsePercent } from '../lib/parsePercent.js'
 import { errorToI18nKey } from '../lib/errorKey.js'
+import { subjectAbbreviation } from '../lib/subjectAbbr.js'
 
 // Grid placement for each widget - a real, non-overlapping 12-column bento
 // grid (stacks to 1 column on mobile, 2 on tablet).
 const QUARTER = 'col-span-6 lg:col-span-3'
 const HALF = 'col-span-12 sm:col-span-6 lg:col-span-6'
+const HALF_ALWAYS = 'col-span-6 lg:col-span-6'
 
 export default function Dashboard() {
   const { logout } = useAuth()
@@ -160,7 +162,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="olive"
-            className={HALF}
+            className={HALF_ALWAYS}
             title={t('gradeCount')}
             subtitle={t('gradeCountSub')}
             value={<DotNumber value={stats?.grade_count} />}
@@ -169,12 +171,12 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="purple"
-            className={HALF}
+            className={HALF_ALWAYS}
             title={t('bestSubject')}
             subtitle={t('bestSubjectSub')}
             visual="wave"
             visualProps={{ markerPct: overallPct ?? 60 }}
-            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl block truncate max-w-full" />}
+            value={<DotNumber value={subjectAbbreviation(stats?.best_subject)} className="block truncate max-w-full" />}
           />
         </div>
       </div>
