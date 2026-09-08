@@ -15,7 +15,6 @@ import { subjectAbbreviation } from '../lib/subjectAbbr.js'
 
 // Grid placement for each widget - a real, non-overlapping 12-column bento
 // grid (stacks to 1 column on mobile, 2 on tablet).
-const QUARTER = 'col-span-6 lg:col-span-3'
 const HALF = 'col-span-12 sm:col-span-6 lg:col-span-6'
 const HALF_ALWAYS = 'col-span-6 lg:col-span-6'
 
@@ -73,13 +72,26 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[#e8e6e1]" id="top">
-      <header className="flex items-center justify-between px-4 sm:px-8 py-5">
+      <header className="flex items-center justify-between gap-3 px-4 sm:px-8 py-5">
         <div className="font-dots text-lg sm:text-xl tracking-widest text-black/80">is・psjg</div>
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          {data?.semesters?.length > 0 && (
+            <select
+              value={selectedSemesterLabel}
+              onChange={(e) => switchSemester(e.target.value)}
+              className="min-w-0 max-w-[120px] sm:max-w-none truncate rounded-full bg-black/5 px-3 py-1.5 text-[11px] sm:text-xs font-medium text-black/60 outline-none hover:text-black/80 transition"
+            >
+              {data.semesters.map((s) => (
+                <option key={s.index} value={s.label}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          )}
           <button
             type="button"
             onClick={logout}
-            className="text-[11px] font-semibold uppercase tracking-wide text-black/40 hover:text-black/70 transition"
+            className="shrink-0 text-[11px] font-semibold uppercase tracking-wide text-black/40 hover:text-black/70 transition"
           >
             {t('logout')}
           </button>
@@ -128,40 +140,12 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="pink"
-            className={`${QUARTER} order-6`}
+            className={`${HALF_ALWAYS} order-6`}
             title={t('portfolioPlace')}
             subtitle={t('portfolioPlaceSub')}
             visual="wave"
             value={<DotNumber value={portfolio?.place} suffix="." />}
           />
-
-          {/* Semester switcher lives here now, not in the hero card */}
-          <BentoCard
-            gradient="yellow"
-            className={`${QUARTER} order-7`}
-            title={t('semester')}
-            subtitle={t('semesterSub')}
-            visual="slider"
-            visualProps={{ markerPct: data?.selectedSemester ? ((data.selectedSemester % 2 === 0 ? 75 : 25)) : 50 }}
-          >
-            <div className="my-1">
-              {data?.semesters?.length > 0 ? (
-                <select
-                  value={selectedSemesterLabel}
-                  onChange={(e) => switchSemester(e.target.value)}
-                  className="w-full rounded-full bg-black/15 text-white text-xs sm:text-sm px-3 py-2 outline-none ring-1 ring-white/20"
-                >
-                  {data.semesters.map((s) => (
-                    <option key={s.index} value={s.label} className="text-black">
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <div className="font-dots text-lg leading-none">–</div>
-              )}
-            </div>
-          </BentoCard>
 
           <BentoCard
             gradient="olive"

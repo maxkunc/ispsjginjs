@@ -30,8 +30,6 @@ export default {
   portfolioPlaceSub: 'In class',
   trend: 'Trend',
   trendSub: 'Recent percentages',
-  semester: 'Semester',
-  semesterSub: 'Switch',
   overall: 'Success rate',
   overallSub: 'Average %',
   recentGrades: 'Recent grades',
