@@ -115,13 +115,13 @@ export default function BentoCard({
       <div className="flex items-start justify-between gap-2">
         <div>
           {title && (
-            <div className={large ? 'text-base sm:text-lg font-bold leading-tight' : 'text-[13px] sm:text-sm font-semibold leading-tight'}>
+            <div className={large ? 'text-lg font-bold leading-tight' : 'text-sm font-semibold leading-tight'}>
               {title}
             </div>
           )}
-          {subtitle && <div className={large ? 'text-xs sm:text-sm text-white/70 leading-tight' : 'text-[11px] sm:text-xs text-white/70 leading-tight'}>{subtitle}</div>}
+          {subtitle && <div className={large ? 'text-sm text-white/85 leading-tight' : 'text-xs text-white/85 leading-tight'}>{subtitle}</div>}
         </div>
-        {cornerLabel && <div className="text-[10px] text-white/50">{cornerLabel}</div>}
+        {cornerLabel && <div className="text-[10px] text-white/60">{cornerLabel}</div>}
       </div>
 
       {children ?? (
@@ -135,7 +135,7 @@ export default function BentoCard({
         {visual === 'wave' && <Wave {...visualProps} />}
         {visual === 'slider' && <Slider {...visualProps} />}
         {visual === 'scatter' && <Scatter {...visualProps} />}
-        {footer && <div className={large ? 'text-xs sm:text-sm text-white/60' : 'text-[11px] sm:text-xs text-white/60'}>{footer}</div>}
+        {footer && <div className={large ? 'text-sm text-white/75' : 'text-xs text-white/75'}>{footer}</div>}
       </div>
     </div>
   )

@@ -31,7 +31,7 @@ function SubjectRow({ subject, t }) {
           className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-dots shrink-0 text-white"
           style={{ background: gradeBackground(Number(subject.knownGrade)) }}
         >
-          {subject.knownGrade || '–'}
+          <span className="inline-block leading-none translate-y-[1.5px]">{subject.knownGrade || '–'}</span>
         </span>
         <span className="flex-1 min-w-0 text-sm truncate">{subject.name}</span>
         <DotNumber value={subject.percentage} className="text-sm text-black/60 hidden sm:inline" />
@@ -51,7 +51,7 @@ function SubjectRow({ subject, t }) {
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-dots text-white shrink-0"
                     style={{ background: gradeBackground(g.grade) }}
                   >
-                    {g.grade ?? '–'}
+                    <span className="inline-block leading-none translate-y-[1.5px]">{g.grade ?? '–'}</span>
                   </span>
                   <span className="flex-1 min-w-0 truncate">{g.description || g.name}</span>
                   <span className="text-black/40 shrink-0">{g.date}</span>
@@ -79,7 +79,7 @@ function GradesTable({ grades, page, t, onPage }) {
               className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-dots text-white shrink-0"
               style={{ background: gradeBackground(row.grade) }}
             >
-              {row.grade ?? '–'}
+              <span className="inline-block leading-none translate-y-[1.5px]">{row.grade ?? '–'}</span>
             </span>
             <span className="flex-1 min-w-0 truncate">{row.name}</span>
             <span className="text-black/40 hidden sm:inline truncate max-w-[30%]">{row.subject}</span>
