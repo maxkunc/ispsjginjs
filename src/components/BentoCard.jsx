@@ -127,7 +127,7 @@ export default function BentoCard({
       {children ?? (
         <div className="flex items-center justify-center gap-2 my-1">
           {visual === 'dial' && <Dial {...visualProps} />}
-          <div className={`min-w-0 text-center font-dots leading-none ${large ? 'text-4xl sm:text-6xl' : 'text-2xl sm:text-4xl'}`}>{value}</div>
+          <div className={`min-w-0 text-center font-dots leading-none ${large ? 'text-[45px] sm:text-6xl' : 'text-3xl sm:text-4xl'}`}>{value}</div>
         </div>
       )}
 
