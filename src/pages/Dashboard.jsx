@@ -12,6 +12,7 @@ import DataSection from '../components/DataSection.jsx'
 import { parsePercent } from '../lib/parsePercent.js'
 import { errorToI18nKey } from '../lib/errorKey.js'
 import { subjectAbbreviation } from '../lib/subjectAbbr.js'
+import { isFutureExam } from '../lib/examDate.js'
 
 // Grid placement for each widget - a real, non-overlapping 12-column bento
 // grid (stacks to 1 column on mobile, 2 on tablet).
@@ -45,6 +46,11 @@ export default function Dashboard() {
     if (values.length === 0) return null
     return Math.round(values.reduce((a, b) => a + b, 0) / values.length)
   }, [data])
+
+  const futureExamsCount = useMemo(
+    () => (zkouseniData?.exams ?? []).filter((e) => isFutureExam(e.date)).length,
+    [zkouseniData],
+  )
 
   const selectedSemesterLabel = useMemo(
     () => data?.semesters?.find((s) => s.index + 1 === data?.selectedSemester)?.label,
@@ -164,6 +170,15 @@ export default function Dashboard() {
             visual="wave"
             visualProps={{ markerPct: overallPct ?? 60 }}
             value={<DotNumber value={subjectAbbreviation(stats?.best_subject)} className="block truncate max-w-full" />}
+          />
+
+          <BentoCard
+            gradient="blue"
+            className={`${HALF_ALWAYS} order-10`}
+            title={t('futureExams')}
+            subtitle={t('futureExamsSub')}
+            value={<DotNumber value={futureExamsCount} />}
+            footer={t('futureExamsSub')}
           />
         </div>
       </div>

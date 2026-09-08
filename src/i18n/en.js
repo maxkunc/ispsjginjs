@@ -23,6 +23,8 @@ export default {
   gradeCountSub: 'Total logged',
   bestSubject: 'Best subject',
   bestSubjectSub: 'By percentage',
+  futureExams: 'Upcoming exams',
+  futureExamsSub: 'Scheduled',
   quickLinks: 'Shortcuts',
   portfolioPoints: 'Portfolio',
   portfolioPointsSub: 'Points',
