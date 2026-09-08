@@ -16,11 +16,10 @@ never sees your password beyond the initial login request.
 - React 19 + Vite
 - Tailwind CSS v4 (`@tailwindcss/vite`)
 - react-router-dom for the login/dashboard split
-- [Doto](https://fonts.google.com/specimen/Doto) (variable, self-hosted -
-  see `public/fonts/doto-LICENSE.txt`) for UI text - a genuine dot-matrix
-  font with full Czech coverage, unlike Pixelify Sans which it replaced;
-  "LED Counter-7" (carried over from the original app, see
-  `public/fonts/led_counter-7-LICENSE.txt`) for the dot-matrix numbers
+- [Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans) for UI
+  text, [Doto](https://fonts.google.com/specimen/Doto) (variable,
+  self-hosted - see `public/fonts/doto-LICENSE.txt`) for the dot-matrix
+  numbers (grade badges, stat numbers, pagination)
 - No UI kit - the bento composition is hand-built (`src/components/BentoCard.jsx`
   and friends) to match the reference layout
 
