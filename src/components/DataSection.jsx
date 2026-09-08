@@ -24,14 +24,31 @@ function SubjectRow({ subject, t }) {
     }
   }
 
+  // "Výsledná známka" is an override the teacher fills in only when the
+  // report-card grade differs from the running "Známka" - it's empty for
+  // most subjects even in a finished term. The grade that actually ends
+  // up on the report card is that override when present, otherwise just
+  // the running grade (confirmed live on is.psjg.cz, see
+  // docs/investigate-final-grade.md).
+  const isOverride = Boolean(subject.finalGrade)
+  const finalGrade = subject.finalGrade || subject.knownGrade
+
   return (
     <div className="rounded-2xl bg-black/[0.04] hover:bg-black/[0.06] transition">
       <button type="button" onClick={toggle} className="w-full flex items-center gap-3 px-4 py-3 text-left">
         <span
           className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-dots shrink-0 text-white"
           style={{ background: gradeBackground(Number(subject.knownGrade)) }}
+          title={t('knownGrade')}
         >
           <span className="inline-block leading-none translate-y-[1.5px]">{subject.knownGrade || '–'}</span>
+        </span>
+        <span
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-dots shrink-0 text-white ${isOverride ? 'ring-2 ring-red-500' : ''}`}
+          style={{ background: gradeBackground(Number(finalGrade)) }}
+          title={t('finalGrade')}
+        >
+          <span className="inline-block leading-none translate-y-[1.5px]">{finalGrade || '–'}</span>
         </span>
         <span className="flex-1 min-w-0 text-sm truncate">{subject.name}</span>
         <DotNumber value={subject.percentage} className="text-sm text-black/60 hidden sm:inline" />
@@ -199,9 +216,10 @@ export default function DataSection({
   return (
     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24 grid grid-cols-1 gap-6 md:grid-cols-2">
       <section id="subjects" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
-        <h2 className="font-dots text-lg mb-3">{t('subjectsPanel')}</h2>
+        <h2 className="font-dots text-lg mb-1">{t('subjectsPanel')}</h2>
+        {home?.subjects?.length > 0 && <p className="text-xs text-black/40 mb-3">{t('subjectsPanelHint')}</p>}
         {(!home?.subjects || home.subjects.length === 0) && (
-          <p className="text-sm text-black/40">{t('noSubjects')}</p>
+          <p className="text-sm text-black/40 mt-2">{t('noSubjects')}</p>
         )}
         {home?.subjects?.length > 0 && (
           <div className="space-y-1.5">
