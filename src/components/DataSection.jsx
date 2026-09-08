@@ -64,8 +64,9 @@ function SubjectRow({ subject, t }) {
                     <span className="grade-dot-center">{g.grade ?? '–'}</span>
                   </span>
                   <span className="flex-1 min-w-0 truncate">{g.description || g.name}</span>
-                  <span className="text-black/40 shrink-0">{g.date}</span>
+                  <span className="text-black/40 shrink-0 hidden sm:inline">{g.date}</span>
                   <DotNumber value={g.percentage} className="text-black/60 shrink-0" />
+                  <DotNumber value={g.points} className="text-black/40 shrink-0" />
                 </div>
               ))}
             </div>
@@ -94,7 +95,8 @@ function GradesTable({ grades, page, t, onPage }) {
             <span className="flex-1 min-w-0 truncate">{row.name}</span>
             <span className="text-black/40 hidden sm:inline truncate max-w-[30%]">{row.subject}</span>
             <span className="text-black/40 hidden sm:inline">{row.date}</span>
-            <DotNumber value={row.percentage} className="w-14 text-right shrink-0" />
+            <DotNumber value={row.percentage} className="text-right shrink-0 whitespace-nowrap" />
+            <DotNumber value={row.points} className="text-right shrink-0 whitespace-nowrap text-black/50" />
           </div>
         ))}
       </div>
