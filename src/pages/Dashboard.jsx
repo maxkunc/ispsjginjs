@@ -133,7 +133,7 @@ export default function Dashboard() {
             subtitle={t('bestSubjectSub')}
             visual="wave"
             visualProps={{ markerPct: overallPct ?? 60 }}
-            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl" />}
+            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl block truncate max-w-full" />}
           />
 
           <HeroCard className="col-span-12" avgGradeRounded={stats?.avg_grade_rounded} studentLabel={studentLabel} />

@@ -197,7 +197,7 @@ export default function DataSection({
   t,
 }) {
   return (
-    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2">
+    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24 grid grid-cols-1 gap-6 md:grid-cols-2">
       <section id="subjects" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
         <h2 className="font-dots text-lg mb-3">{t('subjectsPanel')}</h2>
         {(!home?.subjects || home.subjects.length === 0) && (
