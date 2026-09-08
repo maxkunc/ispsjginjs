@@ -56,7 +56,7 @@ export default {
   grade: 'Grade',
   name: 'Name',
   subject: 'Subject',
-  wip: 'Coming soon',
-  wipText: 'Exams tracking is still in development.',
+  group: 'Group',
+  noExams: 'No exams scheduled',
   languageName: 'EN',
 }

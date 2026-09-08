@@ -56,7 +56,7 @@ export default {
   grade: 'Známka',
   name: 'Název',
   subject: 'Předmět',
-  wip: 'Připravujeme',
-  wipText: 'Zkoušení je zatím ve vývoji.',
+  group: 'Skupina',
+  noExams: 'Žádné zkoušení není naplánováno',
   languageName: 'CZ',
 }

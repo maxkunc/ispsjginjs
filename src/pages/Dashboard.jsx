@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { useHomeData } from '../hooks/useHomeData.js'
 import { usePortfolio } from '../hooks/usePortfolio.js'
+import { useZkouseni } from '../hooks/useZkouseni.js'
 import LanguageSwitch from '../components/LanguageSwitch.jsx'
 import BentoCard from '../components/BentoCard.jsx'
 import HeroCard from '../components/HeroCard.jsx'
@@ -27,6 +28,12 @@ export default function Dashboard() {
     error: portfolioError,
     refresh: refreshPortfolio,
   } = usePortfolio(data?.selectedSemester)
+  const {
+    data: zkouseniData,
+    loading: zkouseniLoading,
+    error: zkouseniError,
+    refresh: refreshZkouseni,
+  } = useZkouseni(data?.selectedSemester)
 
   const stats = data?.stats
   const studentLabel = data?.studentName || t('student')
@@ -190,6 +197,10 @@ export default function Dashboard() {
         portfolioLoading={portfolioLoading}
         portfolioError={portfolioError}
         onPortfolioRetry={refreshPortfolio}
+        exams={zkouseniData?.exams}
+        examsLoading={zkouseniLoading}
+        examsError={zkouseniError}
+        onExamsRetry={refreshZkouseni}
         t={t}
       />
     </div>

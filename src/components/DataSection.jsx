@@ -156,7 +156,46 @@ function PortfolioPanel({ portfolio, loading, error, onRetry, t }) {
   )
 }
 
-export default function DataSection({ home, onPage, portfolio, portfolioLoading, portfolioError, onPortfolioRetry, t }) {
+function ExamsPanel({ exams, loading, error, onRetry, t }) {
+  if (error) {
+    return (
+      <div className="flex items-center gap-3 text-sm text-black/50">
+        <span>{t(errorToI18nKey(error))}</span>
+        <button type="button" onClick={onRetry} className="rounded-full bg-black/10 px-3 py-1 text-xs shrink-0">
+          {t('refresh')}
+        </button>
+      </div>
+    )
+  }
+  if (loading || !exams) return <p className="text-sm text-black/40">{t('loading')}</p>
+  if (exams.length === 0) return <p className="text-sm text-black/40">{t('noExams')}</p>
+  return (
+    <div className="space-y-1.5">
+      {exams.map((exam, i) => (
+        <div key={i} className="flex items-center gap-3 rounded-xl bg-black/[0.04] px-3 py-2 text-xs sm:text-sm">
+          <span className="flex-1 min-w-0 truncate">{exam.name}</span>
+          <span className="text-black/40 truncate max-w-[30%]">{exam.subject}</span>
+          <span className="text-black/40 hidden sm:inline">{exam.group}</span>
+          <span className="text-black/40 shrink-0">{exam.date}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default function DataSection({
+  home,
+  onPage,
+  portfolio,
+  portfolioLoading,
+  portfolioError,
+  onPortfolioRetry,
+  exams,
+  examsLoading,
+  examsError,
+  onExamsRetry,
+  t,
+}) {
   return (
     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2">
       <section id="subjects" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
@@ -175,7 +214,7 @@ export default function DataSection({ home, onPage, portfolio, portfolioLoading,
 
       <section id="exams" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
         <h2 className="font-dots text-lg mb-3">{t('navExams')}</h2>
-        <div className="rounded-2xl bg-black/[0.04] p-4 text-sm text-black/50">🚧 {t('wip')} — {t('wipText')}</div>
+        <ExamsPanel exams={exams} loading={examsLoading} error={examsError} onRetry={onExamsRetry} t={t} />
       </section>
 
       <section className="rounded-[28px] bg-white p-5 sm:p-6 md:col-span-2 scroll-mt-6">
