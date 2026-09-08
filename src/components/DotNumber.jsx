@@ -1,4 +1,4 @@
-/** Renders a value in the dot-matrix "Doto" font, used everywhere the
+/** Renders a value in the dot-matrix "LED Dots" font, used everywhere the
  * reference design shows a big segmented number (grades, percentages, counts).
  */
 export default function DotNumber({ value, suffix = '', className = '' }) {
