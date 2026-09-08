@@ -44,7 +44,7 @@ function SubjectRow({ subject, t }) {
           <span className="grade-dot-center">{displayGrade || '–'}</span>
         </span>
         <span className="flex-1 min-w-0 text-sm truncate">{subject.name}</span>
-        <DotNumber value={subject.percentage} className="text-sm text-black/60 hidden sm:inline" />
+        <DotNumber value={subject.percentage} className="text-sm text-black/60 shrink-0" />
         <DotNumber value={subject.points} className="text-sm text-black/40 hidden sm:inline" />
         <span className="text-black/30 text-xs">{open ? '▴' : '▾'}</span>
       </button>
