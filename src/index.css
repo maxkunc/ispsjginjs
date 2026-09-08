@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "@fontsource/pixelify-sans/400.css";
+@import "@fontsource/pixelify-sans/500.css";
+@import "@fontsource/pixelify-sans/600.css";
+@import "@fontsource/pixelify-sans/700.css";
+
+@font-face {
+  font-family: "LED Dots";
+  src: url("/fonts/led_counter-7.ttf") format("truetype");
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Pixelify Sans", ui-monospace, monospace;
+  --font-dots: "LED Dots", ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: #e8e6e1;
+  color: #16140f;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reference-matched card gradients (bento widget backgrounds) */
+.grad-green { background: linear-gradient(160deg, #0e2c20 0%, #244f37 55%, #6f8f47 100%); }
+.grad-red { background: linear-gradient(160deg, #7a1224 0%, #c23b3b 55%, #e58955 100%); }
+.grad-maroon { background: linear-gradient(160deg, #170406 0%, #58121a 55%, #8e2020 100%); }
+.grad-olive { background: linear-gradient(160deg, #2a1a08 0%, #5c3a17 55%, #8c6a2c 100%); }
+.grad-purple { background: linear-gradient(160deg, #251739 0%, #573b9e 55%, #9179dc 100%); }
+.grad-teal { background: linear-gradient(160deg, #053a3d 0%, #0d6a64 55%, #49b6a2 100%); }
+.grad-pink { background: linear-gradient(160deg, #3a0620 0%, #8c1050 55%, #d1447a 100%); }
+.grad-blue { background: linear-gradient(160deg, #051230 0%, #0c2f6e 55%, #2367d6 100%); }
+.grad-yellow { background: linear-gradient(160deg, #1f2405 0%, #4a5710 55%, #92a51f 100%); }
+.grad-brown { background: linear-gradient(160deg, #241505 0%, #4a2c0d 55%, #7f521e 100%); }
+.grad-skyblue { background: linear-gradient(160deg, #0b2233 0%, #1c4560 55%, #3f83ac 100%); }
+.grad-black { background: linear-gradient(175deg, #0a0a0a 0%, #000000 60%, #0a0a0a 100%); }
+
+.dot-bg {
+  background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+  background-size: 6px 6px;
+  color: currentColor;
+}
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
