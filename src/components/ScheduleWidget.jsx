@@ -1,11 +1,11 @@
 import DotNumber from './DotNumber.jsx'
 import { gradeBackground } from '../lib/gradeColors.js'
 
-export default function ScheduleWidget({ pos, grades, t }) {
+export default function ScheduleWidget({ className = '', grades, t }) {
   const rows = (grades ?? []).slice(0, 2)
 
   return (
-    <div className="absolute z-10 rounded-[28px] grad-purple p-4 sm:p-5 text-white flex flex-col shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)]" style={pos}>
+    <div className={`rounded-[28px] grad-purple p-4 sm:p-5 min-h-[150px] text-white flex flex-col shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] ${className}`}>
       <div className="text-[11px] uppercase tracking-wide text-white/60 mb-2">{t('recentGrades')}</div>
 
       <div className="flex-1 space-y-2 overflow-hidden">

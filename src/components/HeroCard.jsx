@@ -1,4 +1,4 @@
-export default function HeroCard({ pos, t, avgGradeRounded, studentLabel, semesters, selectedSemester, onSemesterChange }) {
+export default function HeroCard({ className = '', t, avgGradeRounded, studentLabel, semesters, selectedSemester, onSemesterChange }) {
   const navItems = [
     { key: 'navDashboard', href: '#top', active: true },
     { key: 'navSubjects', href: '#subjects' },
@@ -7,7 +7,7 @@ export default function HeroCard({ pos, t, avgGradeRounded, studentLabel, semest
   ]
 
   return (
-    <div className="absolute z-0 rounded-[36px] grad-black text-white p-5 sm:p-7 flex flex-col shadow-[0_25px_60px_-20px_rgba(0,0,0,0.6)] overflow-hidden" style={pos}>
+    <div className={`relative rounded-[36px] grad-black text-white p-5 sm:p-7 min-h-[280px] flex flex-col shadow-[0_25px_60px_-20px_rgba(0,0,0,0.6)] overflow-hidden ${className}`}>
       {/* decorative dot-matrix grade glyph, echoes the reference's dot-pattern mark */}
       <div className="absolute top-4 left-5 font-dots text-6xl sm:text-8xl text-white/10 select-none pointer-events-none">
         {avgGradeRounded ?? '–'}

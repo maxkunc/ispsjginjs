@@ -4,11 +4,10 @@ const ITEMS = [
   { key: 'exams', grad: 'grad-maroon', glyph: '◰', href: '#exams' },
 ]
 
-export default function IconCluster({ pos, onLogout, t }) {
+export default function IconCluster({ className = '', onLogout, t }) {
   return (
     <div
-      className="absolute z-10 rounded-[28px] bg-black/85 backdrop-blur p-2.5 grid grid-cols-2 gap-2 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)]"
-      style={pos}
+      className={`rounded-[28px] bg-black/85 backdrop-blur p-2.5 min-h-[150px] grid grid-cols-2 gap-2 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] ${className}`}
     >
       {ITEMS.map((item) => (
         <a

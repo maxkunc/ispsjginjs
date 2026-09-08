@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { api } from '../api/client.js'
 
 export function usePortfolio() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     let cancelled = false
+    setLoading(true)
+    setError(null)
     api
       .portfolio()
       .then((res) => {
@@ -22,7 +25,9 @@ export function usePortfolio() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [attempt])
 
-  return { data, loading, error }
+  const refresh = useCallback(() => setAttempt((a) => a + 1), [])
+
+  return { data, loading, error, refresh }
 }

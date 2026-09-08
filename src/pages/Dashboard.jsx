@@ -15,32 +15,16 @@ import DataSection from '../components/DataSection.jsx'
 import { parsePercent } from '../lib/parsePercent.js'
 import { errorToI18nKey } from '../lib/errorKey.js'
 
-// Absolute position of each widget inside the composition canvas, as % of
-// the canvas box - mirrors the reference "AI OS" bento layout.
-const POS = {
-  avg: { top: '3%', left: '22%', width: '21%', height: '20%' },
-  subjects: { top: '15.7%', left: '2.5%', width: '17.5%', height: '12.4%' },
-  next: { top: '11%', left: '58.75%', width: '17%', height: '12.7%' },
-  portrait: { top: '1.7%', left: '70%', width: '15.8%', height: '16.7%' },
-  icons: { top: '16.3%', left: '80%', width: '16%', height: '12.7%' },
-  gradeCount: { top: '17%', left: '35%', width: '16.7%', height: '11.1%' },
-  hero: { top: '28.3%', left: '5%', width: '90%', height: '43.3%' },
-  attendance: { top: '41%', left: '1.7%', width: '16.7%', height: '16.7%' },
-  best: { top: '32.7%', left: '51.7%', width: '19.6%', height: '18%' },
-  portfolioPoints: { top: '32.7%', left: '71.7%', width: '19.6%', height: '18%' },
-  portfolioPlace: { top: '51.7%', left: '51.7%', width: '19.6%', height: '18%' },
-  trend: { top: '51.7%', left: '71.7%', width: '19.6%', height: '18%' },
-  semester: { top: '65.7%', left: '35%', width: '16.7%', height: '14.7%' },
-  schedule: { top: '73.7%', left: '41.25%', width: '25%', height: '15.3%' },
-  cta: { top: '76%', left: '75.4%', width: '15.8%', height: '12.7%' },
-  overall: { top: '79%', left: '6.25%', width: '29.2%', height: '10%' },
-}
+// Grid placement for each widget - a real, non-overlapping 12-column bento
+// grid (stacks to 1 column on mobile, 2 on tablet).
+const QUARTER = 'col-span-12 sm:col-span-6 lg:col-span-3'
+const HALF = 'col-span-12 sm:col-span-6 lg:col-span-6'
 
 export default function Dashboard() {
   const { logout } = useAuth()
   const { t, lang } = useLanguage()
   const { data, loading, error, setPage, refresh, switchSemester } = useHomeData()
-  const { data: portfolio } = usePortfolio()
+  const { data: portfolio, loading: portfolioLoading, error: portfolioError, refresh: refreshPortfolio } = usePortfolio()
 
   const stats = data?.stats
   const studentLabel = t('student')
@@ -98,11 +82,11 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="overflow-x-auto pb-2">
-        <div className="relative mx-auto min-w-[880px] max-w-[1200px] aspect-[12/15.5] px-4 sm:px-6">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-8">
+        <div className="grid grid-cols-12 gap-4 sm:gap-5">
           <BentoCard
             gradient="green"
-            pos={POS.avg}
+            className={QUARTER}
             title={t('average')}
             subtitle={stats?.subject_count != null ? `${stats.subject_count} ${t('subjectsSub').toLowerCase()}` : t('averageSub')}
             visual="dial"
@@ -113,7 +97,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="red"
-            pos={POS.subjects}
+            className={QUARTER}
             title={t('subjectsToday')}
             subtitle={t('subjectsSub')}
             value={<DotNumber value={stats?.subject_count} />}
@@ -122,28 +106,48 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="maroon"
-            pos={POS.next}
+            className={QUARTER}
             title={t('navExams')}
             cornerLabel="○"
             footer={t('wip')}
             value={<span className="text-2xl sm:text-3xl">🚧</span>}
           />
 
-          <PortraitCard pos={POS.portrait} initial={studentLabel?.[0] ?? '?'} />
-
-          <IconCluster pos={POS.icons} onLogout={logout} t={t} />
+          <PortraitCard className={QUARTER} initial={studentLabel?.[0] ?? '?'} />
 
           <BentoCard
             gradient="olive"
-            pos={POS.gradeCount}
+            className={QUARTER}
             title={t('gradeCount')}
             subtitle={t('gradeCountSub')}
             value={<DotNumber value={stats?.grade_count} />}
             footer={t('gradeCountSub')}
           />
 
+          <IconCluster className={QUARTER} onLogout={logout} t={t} />
+
+          <BentoCard
+            gradient="purple"
+            className={QUARTER}
+            title={t('bestSubject')}
+            subtitle={t('bestSubjectSub')}
+            visual="wave"
+            visualProps={{ markerPct: overallPct ?? 60 }}
+            value={<DotNumber value={stats?.best_subject} className="text-base sm:text-xl" />}
+          />
+
+          <BentoCard
+            gradient="skyblue"
+            className={QUARTER}
+            title={t('overall')}
+            visual="dial"
+            visualProps={{ pct: overallPct ?? 0 }}
+            value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-3xl" />}
+            footer={t('overallSub')}
+          />
+
           <HeroCard
-            pos={POS.hero}
+            className="col-span-12"
             t={t}
             avgGradeRounded={stats?.avg_grade_rounded}
             studentLabel={studentLabel}
@@ -153,28 +157,8 @@ export default function Dashboard() {
           />
 
           <BentoCard
-            gradient="skyblue"
-            pos={POS.attendance}
-            title={t('overall')}
-            visual="dial"
-            visualProps={{ pct: overallPct ?? 0 }}
-            value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-3xl" />}
-            footer={t('overallSub')}
-          />
-
-          <BentoCard
-            gradient="purple"
-            pos={POS.best}
-            title={t('bestSubject')}
-            subtitle={t('bestSubjectSub')}
-            visual="wave"
-            visualProps={{ markerPct: overallPct ?? 60 }}
-            value={<DotNumber value={stats?.best_subject} className="text-base sm:text-xl" />}
-          />
-
-          <BentoCard
             gradient="teal"
-            pos={POS.portfolioPoints}
+            className={QUARTER}
             title={t('portfolioPoints')}
             subtitle={t('portfolioPointsSub')}
             visual="dial"
@@ -185,7 +169,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="pink"
-            pos={POS.portfolioPlace}
+            className={QUARTER}
             title={t('portfolioPlace')}
             subtitle={t('portfolioPlaceSub')}
             visual="wave"
@@ -194,7 +178,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="blue"
-            pos={POS.trend}
+            className={QUARTER}
             title={t('trend')}
             subtitle={t('trendSub')}
             visual="scatter"
@@ -204,7 +188,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="yellow"
-            pos={POS.semester}
+            className={QUARTER}
             title={t('semester')}
             subtitle={t('semesterSub')}
             visual="slider"
@@ -217,23 +201,31 @@ export default function Dashboard() {
             }
           />
 
-          <ScheduleWidget pos={POS.schedule} grades={data?.grades} t={t} />
-
-          <GlowCTA pos={POS.cta} onClick={refresh} label={t('refresh')} />
+          <ScheduleWidget className={HALF} grades={data?.grades} t={t} />
 
           <BentoCard
             gradient="brown"
-            pos={POS.overall}
+            className="col-span-12 sm:col-span-6 lg:col-span-4"
             title={t('overall')}
             visual="slider"
             visualProps={{ markerPct: overallPct ?? 0 }}
             value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-4xl" />}
             footer={t('overallSub')}
           />
+
+          <GlowCTA className="col-span-12 sm:col-span-12 lg:col-span-2" onClick={refresh} label={t('refresh')} />
         </div>
       </div>
 
-      <DataSection home={data} onPage={setPage} portfolio={portfolio} t={t} />
+      <DataSection
+        home={data}
+        onPage={setPage}
+        portfolio={portfolio}
+        portfolioLoading={portfolioLoading}
+        portfolioError={portfolioError}
+        onPortfolioRetry={refreshPortfolio}
+        t={t}
+      />
     </div>
   )
 }

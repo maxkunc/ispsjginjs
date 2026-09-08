@@ -2,6 +2,7 @@ import { useState } from 'react'
 import DotNumber from './DotNumber.jsx'
 import { gradeBackground } from '../lib/gradeColors.js'
 import { api } from '../api/client.js'
+import { errorToI18nKey } from '../lib/errorKey.js'
 
 function SubjectRow({ subject, t }) {
   const [open, setOpen] = useState(false)
@@ -113,8 +114,18 @@ function GradesTable({ grades, page, t, onPage }) {
   )
 }
 
-function PortfolioPanel({ portfolio, t }) {
-  if (!portfolio) return <p className="text-sm text-black/40">{t('loading')}</p>
+function PortfolioPanel({ portfolio, loading, error, onRetry, t }) {
+  if (error) {
+    return (
+      <div className="flex items-center gap-3 text-sm text-black/50">
+        <span>{t(errorToI18nKey(error))}</span>
+        <button type="button" onClick={onRetry} className="rounded-full bg-black/10 px-3 py-1 text-xs shrink-0">
+          {t('refresh')}
+        </button>
+      </div>
+    )
+  }
+  if (loading || !portfolio) return <p className="text-sm text-black/40">{t('loading')}</p>
   if (!portfolio.data || portfolio.data.length === 0) {
     return <p className="text-sm text-black/40">{t('none')}</p>
   }
@@ -145,7 +156,7 @@ function PortfolioPanel({ portfolio, t }) {
   )
 }
 
-export default function DataSection({ home, onPage, portfolio, t }) {
+export default function DataSection({ home, onPage, portfolio, portfolioLoading, portfolioError, onPortfolioRetry, t }) {
   return (
     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2">
       <section id="subjects" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
@@ -174,7 +185,7 @@ export default function DataSection({ home, onPage, portfolio, t }) {
 
       <section id="portfolio" className="rounded-[28px] bg-white p-5 sm:p-6 md:col-span-2 scroll-mt-6">
         <h2 className="font-dots text-lg mb-3">{t('portfolioPanel')}</h2>
-        <PortfolioPanel portfolio={portfolio} t={t} />
+        <PortfolioPanel portfolio={portfolio} loading={portfolioLoading} error={portfolioError} onRetry={onPortfolioRetry} t={t} />
       </section>
     </div>
   )

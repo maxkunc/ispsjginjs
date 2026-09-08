@@ -80,12 +80,11 @@ function Scatter({ seed = 1, count = 22 }) {
 }
 
 /**
- * One bento widget. `pos` places it absolutely inside the composition canvas
- * as percentages of the canvas box, matching the reference layout.
+ * One bento widget - a normal grid item. `className` carries its grid
+ * placement (e.g. "col-span-12 sm:col-span-6 lg:col-span-3").
  */
 export default function BentoCard({
   gradient = 'green',
-  pos,
   title,
   subtitle,
   value,
@@ -98,8 +97,7 @@ export default function BentoCard({
 }) {
   return (
     <div
-      className={`absolute z-10 rounded-[28px] p-4 sm:p-5 text-white shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] flex flex-col justify-between overflow-hidden ${GRADIENTS[gradient]} ${className}`}
-      style={pos}
+      className={`rounded-[28px] p-4 sm:p-5 min-h-[150px] text-white shadow-[0_18px_40px_-14px_rgba(0,0,0,0.45)] flex flex-col justify-between overflow-hidden ${GRADIENTS[gradient]} ${className}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
