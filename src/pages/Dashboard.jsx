@@ -174,7 +174,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="blue"
-            className={`${HALF_ALWAYS} order-10`}
+            className={`${HALF_ALWAYS} order-10 sm:hidden`}
             title={t('futureExams')}
             subtitle={t('futureExamsSub')}
             value={<DotNumber value={futureExamsCount} />}
