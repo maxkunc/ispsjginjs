@@ -88,11 +88,14 @@ export default function Dashboard() {
 
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-8">
         <div className="grid grid-cols-12 gap-4 sm:gap-5">
-          {/* Primary stats: bigger, bolder */}
+          {/* Primary stats: bigger, bolder. On mobile the visual order is
+              Portfolio+Success rate, Average, name, recent grades (see the
+              order-* classes below) - desktop keeps the original order via
+              the sm:order-* overrides. */}
           <BentoCard
             gradient="green"
             large
-            className={HALF}
+            className={`${HALF} order-3 sm:order-1`}
             title={t('average')}
             subtitle={stats?.subject_count != null ? `${stats.subject_count} ${t('subjectsSub').toLowerCase()}` : t('averageSub')}
             value={<DotNumber value={stats?.avg_grade} />}
@@ -102,21 +105,21 @@ export default function Dashboard() {
           <BentoCard
             gradient="skyblue"
             large
-            className={HALF}
+            className={`${HALF_ALWAYS} order-2`}
             title={t('overall')}
             value={<DotNumber value={overallPct} suffix="%" />}
             footer={t('overallSub')}
           />
 
-          <ScheduleWidget className="col-span-12" grades={data?.grades} t={t} />
+          <ScheduleWidget className="col-span-12 order-5 sm:order-3" grades={data?.grades} t={t} />
 
-          <HeroCard className="col-span-12" studentLabel={studentLabel} />
+          <HeroCard className="col-span-12 order-4" studentLabel={studentLabel} />
 
           {/* Primary: portfolio points, bigger/bolder */}
           <BentoCard
             gradient="teal"
             large
-            className={HALF}
+            className={`${HALF_ALWAYS} order-1 sm:order-5`}
             title={t('portfolioPoints')}
             subtitle={t('portfolioPointsSub')}
             value={<DotNumber value={portfolio?.points} />}
@@ -125,7 +128,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="pink"
-            className={QUARTER}
+            className={`${QUARTER} order-6`}
             title={t('portfolioPlace')}
             subtitle={t('portfolioPlaceSub')}
             visual="wave"
@@ -135,7 +138,7 @@ export default function Dashboard() {
           {/* Semester switcher lives here now, not in the hero card */}
           <BentoCard
             gradient="yellow"
-            className={QUARTER}
+            className={`${QUARTER} order-7`}
             title={t('semester')}
             subtitle={t('semesterSub')}
             visual="slider"
@@ -162,7 +165,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="olive"
-            className={HALF_ALWAYS}
+            className={`${HALF_ALWAYS} order-8`}
             title={t('gradeCount')}
             subtitle={t('gradeCountSub')}
             value={<DotNumber value={stats?.grade_count} />}
@@ -171,7 +174,7 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="purple"
-            className={HALF_ALWAYS}
+            className={`${HALF_ALWAYS} order-9`}
             title={t('bestSubject')}
             subtitle={t('bestSubjectSub')}
             visual="wave"
