@@ -19,7 +19,7 @@ export default defineConfig({
         display: 'standalone',
         background_color: '#e8e6e1',
         theme_color: '#e8e6e1',
-        lang: 'cs',
+        lang: 'en',
         icons: [
           { src: '/icons/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icons/pwa-512x512.png', sizes: '512x512', type: 'image/png' },

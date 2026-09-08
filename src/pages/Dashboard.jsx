@@ -4,7 +4,6 @@ import { useLanguage } from '../context/LanguageContext.jsx'
 import { useHomeData } from '../hooks/useHomeData.js'
 import { usePortfolio } from '../hooks/usePortfolio.js'
 import { useZkouseni } from '../hooks/useZkouseni.js'
-import LanguageSwitch from '../components/LanguageSwitch.jsx'
 import BentoCard from '../components/BentoCard.jsx'
 import HeroCard from '../components/HeroCard.jsx'
 import ScheduleWidget from '../components/ScheduleWidget.jsx'
@@ -75,7 +74,6 @@ export default function Dashboard() {
       <header className="flex items-center justify-between px-4 sm:px-8 py-5">
         <div className="font-dots text-lg sm:text-xl tracking-widest text-black/80">is・psjg</div>
         <div className="flex items-center gap-3">
-          <LanguageSwitch />
           <button
             type="button"
             onClick={logout}

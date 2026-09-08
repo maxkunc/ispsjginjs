@@ -58,5 +58,4 @@ export default {
   subject: 'Subject',
   group: 'Group',
   noExams: 'No exams scheduled',
-  languageName: 'EN',
 }
