@@ -12,7 +12,15 @@ const GRADIENTS = {
   skyblue: 'grad-skyblue',
 }
 
+// Clamp only the marker's *position* on the 0-100 track - the actual
+// percentage shown elsewhere on a card can legitimately exceed 100
+// (extra-credit points), it just can't push the marker off the SVG canvas.
+function clampPct(pct) {
+  return Math.min(100, Math.max(0, pct))
+}
+
 function Wave({ markerPct = 60 }) {
+  const x = clampPct(markerPct) * 2
   return (
     <svg viewBox="0 0 200 40" className="w-full h-8" preserveAspectRatio="none">
       <path
@@ -22,18 +30,19 @@ function Wave({ markerPct = 60 }) {
         strokeOpacity="0.55"
         strokeWidth="1.5"
       />
-      <line x1={markerPct * 2} y1="2" x2={markerPct * 2} y2="38" stroke="currentColor" strokeWidth="2" />
+      <line x1={x} y1="2" x2={x} y2="38" stroke="currentColor" strokeWidth="2" />
     </svg>
   )
 }
 
 function Slider({ markerPct = 50 }) {
+  const x = clampPct(markerPct) * 2
   return (
     <svg viewBox="0 0 200 24" className="w-full h-6" preserveAspectRatio="none">
       {Array.from({ length: 34 }).map((_, i) => (
         <line key={i} x1={i * 6} y1="4" x2={i * 6} y2="16" stroke="currentColor" strokeOpacity="0.35" strokeWidth="1.5" />
       ))}
-      <line x1={markerPct * 2} y1="2" x2={markerPct * 2} y2="22" stroke="currentColor" strokeWidth="2" />
+      <line x1={x} y1="2" x2={x} y2="22" stroke="currentColor" strokeWidth="2" />
     </svg>
   )
 }

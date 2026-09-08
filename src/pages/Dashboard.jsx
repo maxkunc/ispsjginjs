@@ -15,7 +15,7 @@ import { errorToI18nKey } from '../lib/errorKey.js'
 
 // Grid placement for each widget - a real, non-overlapping 12-column bento
 // grid (stacks to 1 column on mobile, 2 on tablet).
-const QUARTER = 'col-span-12 sm:col-span-6 lg:col-span-3'
+const QUARTER = 'col-span-6 lg:col-span-3'
 const HALF = 'col-span-12 sm:col-span-6 lg:col-span-6'
 
 export default function Dashboard() {
@@ -108,26 +108,9 @@ export default function Dashboard() {
             footer={t('overallSub')}
           />
 
-          <BentoCard
-            gradient="olive"
-            className={HALF}
-            title={t('gradeCount')}
-            subtitle={t('gradeCountSub')}
-            value={<DotNumber value={stats?.grade_count} />}
-            footer={t('gradeCountSub')}
-          />
+          <ScheduleWidget className="col-span-12" grades={data?.grades} t={t} />
 
-          <BentoCard
-            gradient="purple"
-            className={HALF}
-            title={t('bestSubject')}
-            subtitle={t('bestSubjectSub')}
-            visual="wave"
-            visualProps={{ markerPct: overallPct ?? 60 }}
-            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl block truncate max-w-full" />}
-          />
-
-          <HeroCard className="col-span-12" avgGradeRounded={stats?.avg_grade_rounded} studentLabel={studentLabel} />
+          <HeroCard className="col-span-12" studentLabel={studentLabel} />
 
           {/* Primary: portfolio points, bigger/bolder */}
           <BentoCard
@@ -177,7 +160,24 @@ export default function Dashboard() {
             </div>
           </BentoCard>
 
-          <ScheduleWidget className="col-span-12" grades={data?.grades} t={t} />
+          <BentoCard
+            gradient="olive"
+            className={HALF}
+            title={t('gradeCount')}
+            subtitle={t('gradeCountSub')}
+            value={<DotNumber value={stats?.grade_count} />}
+            footer={t('gradeCountSub')}
+          />
+
+          <BentoCard
+            gradient="purple"
+            className={HALF}
+            title={t('bestSubject')}
+            subtitle={t('bestSubjectSub')}
+            visual="wave"
+            visualProps={{ markerPct: overallPct ?? 60 }}
+            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl block truncate max-w-full" />}
+          />
         </div>
       </div>
 
