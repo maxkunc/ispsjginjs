@@ -1,8 +1,15 @@
 @import "tailwindcss";
-@import "@fontsource/pixelify-sans/400.css";
-@import "@fontsource/pixelify-sans/500.css";
-@import "@fontsource/pixelify-sans/600.css";
-@import "@fontsource/pixelify-sans/700.css";
+
+/* Variable font (weight 100-900, ROND 0-100 "roundness" of the dots) -
+   swapped in for Pixelify Sans because it covers the full Czech alphabet
+   (verified with fontTools: ěščřžýáíéůďťň and uppercase all present),
+   which Pixelify Sans' latin-ext subset didn't reliably render. */
+@font-face {
+  font-family: "Doto";
+  src: url("/fonts/Doto-Variable.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "LED Dots";
@@ -11,7 +18,7 @@
 }
 
 @theme {
-  --font-sans: "Pixelify Sans", ui-monospace, monospace;
+  --font-sans: "Doto", ui-monospace, monospace;
   --font-dots: "LED Dots", ui-monospace, monospace;
 }
 
@@ -24,6 +31,8 @@ body {
   background: #e8e6e1;
   color: #16140f;
   font-family: var(--font-sans);
+  font-weight: 700;
+  font-variation-settings: "ROND" 100;
   -webkit-font-smoothing: antialiased;
 }
 
