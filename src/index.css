@@ -11,9 +11,17 @@
   font-display: swap;
 }
 
+/* Static single-weight file, declared at 700 to match the weight every
+   font-dots element actually renders at (body sets font-weight: 700
+   globally, nothing overrides it lower) - without this the face only
+   registers at the default 400, so every number/value fell back to the
+   browser's synthetic bold, which doesn't scale consistently across
+   sizes and made big card values and small badge digits look like
+   different weights even though the same weight was requested. */
 @font-face {
   font-family: "LED Dots";
   src: url("/fonts/led_counter-7.ttf") format("truetype");
+  font-weight: 700;
   font-display: swap;
 }
 
