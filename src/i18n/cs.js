@@ -18,7 +18,6 @@ export default {
 
   average: 'Průměr',
   averageSub: 'Aktuální pololetí',
-  subjectsToday: 'Předměty',
   subjectsSub: 'Zapsané',
   gradeCount: 'Známky',
   gradeCountSub: 'Celkem zapsáno',

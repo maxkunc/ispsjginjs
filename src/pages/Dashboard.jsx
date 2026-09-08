@@ -20,7 +20,7 @@ const HALF = 'col-span-12 sm:col-span-6 lg:col-span-6'
 
 export default function Dashboard() {
   const { logout } = useAuth()
-  const { t, lang } = useLanguage()
+  const { t } = useLanguage()
   const { data, loading, error, setPage, refresh, switchSemester } = useHomeData()
   const {
     data: portfolio,
@@ -109,17 +109,8 @@ export default function Dashboard() {
           />
 
           <BentoCard
-            gradient="red"
-            className={QUARTER}
-            title={t('subjectsToday')}
-            subtitle={t('subjectsSub')}
-            value={<DotNumber value={stats?.subject_count} />}
-            footer={lang === 'cs' ? 'Celkem' : 'Total'}
-          />
-
-          <BentoCard
             gradient="olive"
-            className={QUARTER}
+            className={HALF}
             title={t('gradeCount')}
             subtitle={t('gradeCountSub')}
             value={<DotNumber value={stats?.grade_count} />}

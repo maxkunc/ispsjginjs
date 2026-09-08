@@ -18,7 +18,6 @@ export default {
 
   average: 'Average',
   averageSub: 'Current semester',
-  subjectsToday: 'Subjects',
   subjectsSub: 'Enrolled',
   gradeCount: 'Grades',
   gradeCountSub: 'Total logged',
