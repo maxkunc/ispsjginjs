@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../api/client.js'
 
-export function usePortfolio() {
+/**
+ * @param {number|undefined} semesterKey - when this changes (e.g. the user
+ * switched semesters), portfolio is refetched - it's semester-scoped on the
+ * backend now, same as grades.
+ */
+export function usePortfolio(semesterKey) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -25,7 +30,7 @@ export function usePortfolio() {
     return () => {
       cancelled = true
     }
-  }, [attempt])
+  }, [attempt, semesterKey])
 
   const refresh = useCallback(() => setAttempt((a) => a + 1), [])
 

@@ -1,7 +1,6 @@
 export default function HeroCard({ className = '', t, avgGradeRounded, studentLabel, semesters, selectedSemester, onSemesterChange }) {
   const navItems = [
     { key: 'navDashboard', href: '#top', active: true },
-    { key: 'navSubjects', href: '#subjects' },
     { key: 'navPortfolio', href: '#portfolio' },
     { key: 'navExams', href: '#exams' },
   ]

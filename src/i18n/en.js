@@ -15,7 +15,6 @@ export default {
   loading: 'Loading…',
 
   navDashboard: 'Dashboard',
-  navSubjects: 'Subjects',
   navPortfolio: 'Portfolio',
   navExams: 'Exams',
 
@@ -26,7 +25,7 @@ export default {
   gradeCount: 'Grades',
   gradeCountSub: 'Total logged',
   bestSubject: 'Best subject',
-  bestSubjectSub: 'By grade',
+  bestSubjectSub: 'By percentage',
   quickLinks: 'Shortcuts',
   portfolioPoints: 'Portfolio',
   portfolioPointsSub: 'Points',

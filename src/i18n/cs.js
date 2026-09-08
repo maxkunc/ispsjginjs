@@ -15,7 +15,6 @@ export default {
   loading: 'Načítám…',
 
   navDashboard: 'Přehled',
-  navSubjects: 'Předměty',
   navPortfolio: 'Portfolio',
   navExams: 'Zkoušení',
 
@@ -26,7 +25,7 @@ export default {
   gradeCount: 'Známky',
   gradeCountSub: 'Celkem zapsáno',
   bestSubject: 'Nejlepší předmět',
-  bestSubjectSub: 'Podle známky',
+  bestSubjectSub: 'Podle procent',
   quickLinks: 'Zkratky',
   portfolioPoints: 'Portfolio',
   portfolioPointsSub: 'Body',

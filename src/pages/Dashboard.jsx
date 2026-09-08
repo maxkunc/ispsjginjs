@@ -6,10 +6,7 @@ import { usePortfolio } from '../hooks/usePortfolio.js'
 import LanguageSwitch from '../components/LanguageSwitch.jsx'
 import BentoCard from '../components/BentoCard.jsx'
 import HeroCard from '../components/HeroCard.jsx'
-import PortraitCard from '../components/PortraitCard.jsx'
-import IconCluster from '../components/IconCluster.jsx'
 import ScheduleWidget from '../components/ScheduleWidget.jsx'
-import GlowCTA from '../components/GlowCTA.jsx'
 import DotNumber from '../components/DotNumber.jsx'
 import DataSection from '../components/DataSection.jsx'
 import { parsePercent } from '../lib/parsePercent.js'
@@ -24,10 +21,15 @@ export default function Dashboard() {
   const { logout } = useAuth()
   const { t, lang } = useLanguage()
   const { data, loading, error, setPage, refresh, switchSemester } = useHomeData()
-  const { data: portfolio, loading: portfolioLoading, error: portfolioError, refresh: refreshPortfolio } = usePortfolio()
+  const {
+    data: portfolio,
+    loading: portfolioLoading,
+    error: portfolioError,
+    refresh: refreshPortfolio,
+  } = usePortfolio(data?.selectedSemester)
 
   const stats = data?.stats
-  const studentLabel = t('student')
+  const studentLabel = data?.studentName || t('student')
 
   const overallPct = useMemo(() => {
     const values = (data?.subjects ?? [])
@@ -36,11 +38,6 @@ export default function Dashboard() {
     if (values.length === 0) return null
     return Math.round(values.reduce((a, b) => a + b, 0) / values.length)
   }, [data])
-
-  const trendValues = useMemo(
-    () => (data?.grades ?? []).map((g) => parsePercent(g.percentage)).filter((v) => v !== null),
-    [data],
-  )
 
   const selectedSemesterLabel = useMemo(
     () => data?.semesters?.find((s) => s.index + 1 === data?.selectedSemester)?.label,
@@ -89,8 +86,6 @@ export default function Dashboard() {
             className={QUARTER}
             title={t('average')}
             subtitle={stats?.subject_count != null ? `${stats.subject_count} ${t('subjectsSub').toLowerCase()}` : t('averageSub')}
-            visual="dial"
-            visualProps={{ pct: stats?.avg_grade_rounded ? (6 - stats.avg_grade_rounded) * 20 : 0 }}
             value={<DotNumber value={stats?.avg_grade} />}
             footer={t('average')}
           />
@@ -105,17 +100,6 @@ export default function Dashboard() {
           />
 
           <BentoCard
-            gradient="maroon"
-            className={QUARTER}
-            title={t('navExams')}
-            cornerLabel="○"
-            footer={t('wip')}
-            value={<span className="text-2xl sm:text-3xl">🚧</span>}
-          />
-
-          <PortraitCard className={QUARTER} initial={studentLabel?.[0] ?? '?'} />
-
-          <BentoCard
             gradient="olive"
             className={QUARTER}
             title={t('gradeCount')}
@@ -124,26 +108,22 @@ export default function Dashboard() {
             footer={t('gradeCountSub')}
           />
 
-          <IconCluster className={QUARTER} onLogout={logout} t={t} />
-
-          <BentoCard
-            gradient="purple"
-            className={QUARTER}
-            title={t('bestSubject')}
-            subtitle={t('bestSubjectSub')}
-            visual="wave"
-            visualProps={{ markerPct: overallPct ?? 60 }}
-            value={<DotNumber value={stats?.best_subject} className="text-base sm:text-xl" />}
-          />
-
           <BentoCard
             gradient="skyblue"
             className={QUARTER}
             title={t('overall')}
-            visual="dial"
-            visualProps={{ pct: overallPct ?? 0 }}
             value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-3xl" />}
             footer={t('overallSub')}
+          />
+
+          <BentoCard
+            gradient="purple"
+            className="col-span-12"
+            title={t('bestSubject')}
+            subtitle={t('bestSubjectSub')}
+            visual="wave"
+            visualProps={{ markerPct: overallPct ?? 60 }}
+            value={<DotNumber value={stats?.best_subject} className="text-xl sm:text-2xl" />}
           />
 
           <HeroCard
@@ -161,8 +141,6 @@ export default function Dashboard() {
             className={QUARTER}
             title={t('portfolioPoints')}
             subtitle={t('portfolioPointsSub')}
-            visual="dial"
-            visualProps={{ pct: portfolio ? Math.min(100, portfolio.points) : 0 }}
             value={<DotNumber value={portfolio?.points} />}
             footer={t('portfolioPointsSub')}
           />
@@ -177,18 +155,8 @@ export default function Dashboard() {
           />
 
           <BentoCard
-            gradient="blue"
-            className={QUARTER}
-            title={t('trend')}
-            subtitle={t('trendSub')}
-            visual="scatter"
-            visualProps={{ seed: trendValues.length || 1, count: Math.max(6, trendValues.length) }}
-            footer="AM · PM"
-          />
-
-          <BentoCard
             gradient="yellow"
-            className={QUARTER}
+            className={HALF}
             title={t('semester')}
             subtitle={t('semesterSub')}
             visual="slider"
@@ -205,15 +173,13 @@ export default function Dashboard() {
 
           <BentoCard
             gradient="brown"
-            className="col-span-12 sm:col-span-6 lg:col-span-4"
+            className={HALF}
             title={t('overall')}
             visual="slider"
             visualProps={{ markerPct: overallPct ?? 0 }}
             value={<DotNumber value={overallPct} suffix="%" className="text-2xl sm:text-4xl" />}
             footer={t('overallSub')}
           />
-
-          <GlowCTA className="col-span-12 sm:col-span-12 lg:col-span-2" onClick={refresh} label={t('refresh')} />
         </div>
       </div>
 
