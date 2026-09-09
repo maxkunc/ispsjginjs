@@ -43,6 +43,18 @@ export default function Dashboard() {
     refresh: refreshZkouseni,
   } = useZkouseni(data?.selectedSemester, homeReady)
 
+  // Manual in-app reload only - no auto-polling exists anywhere in this app,
+  // data only ever changes on initial load, a semester switch, or this
+  // button. Disabled mid-flight so repeat clicks can't stack more request
+  // bursts against is.psjg.cz (see the Dockerfile's thread-cap comment).
+  const isReloading = loading || portfolioLoading || zkouseniLoading
+  const handleReload = () => {
+    if (isReloading) return
+    refresh()
+    refreshPortfolio()
+    refreshZkouseni()
+  }
+
   const stats = data?.stats
   const studentLabel = data?.studentName || t('student')
 
@@ -101,6 +113,27 @@ export default function Dashboard() {
               ))}
             </select>
           )}
+          <button
+            type="button"
+            onClick={handleReload}
+            disabled={isReloading}
+            aria-label={t('refresh')}
+            title={t('refresh')}
+            className="shrink-0 grid place-items-center h-7 w-7 rounded-full bg-black/5 text-black/60 outline-none hover:text-black/80 hover:bg-black/10 transition disabled:opacity-40"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`h-3.5 w-3.5 ${isReloading ? 'animate-spin' : ''}`}
+            >
+              <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+              <path d="M21 3v6h-6" />
+            </svg>
+          </button>
           <button
             type="button"
             onClick={logout}
