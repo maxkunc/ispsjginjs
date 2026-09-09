@@ -23,18 +23,25 @@ export default function Dashboard() {
   const { logout } = useAuth()
   const { t } = useLanguage()
   const { data, loading, error, setPage, refresh, switchSemester } = useHomeData()
+  // Wait for home to resolve before firing portfolio/zkouseni: it's what
+  // populates the backend's cached studentId and the real semester number,
+  // so firing earlier used to both race a redundant upstream fetch and
+  // double-fire once semesterKey flipped from undefined to real (see
+  // useSemesterScopedResource) - together that meant up to 7 requests to
+  // is.psjg.cz for one dashboard load instead of the 4 it actually needs.
+  const homeReady = Boolean(data)
   const {
     data: portfolio,
     loading: portfolioLoading,
     error: portfolioError,
     refresh: refreshPortfolio,
-  } = usePortfolio(data?.selectedSemester)
+  } = usePortfolio(data?.selectedSemester, homeReady)
   const {
     data: zkouseniData,
     loading: zkouseniLoading,
     error: zkouseniError,
     refresh: refreshZkouseni,
-  } = useZkouseni(data?.selectedSemester)
+  } = useZkouseni(data?.selectedSemester, homeReady)
 
   const stats = data?.stats
   const studentLabel = data?.studentName || t('student')
