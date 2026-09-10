@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { useHomeData } from '../hooks/useHomeData.js'
@@ -134,6 +135,12 @@ export default function Dashboard() {
               <path d="M21 3v6h-6" />
             </svg>
           </button>
+          <Link
+            to="/nothing"
+            className="shrink-0 hidden sm:inline text-[11px] font-semibold uppercase tracking-wide text-black/40 hover:text-black/70 transition"
+          >
+            Nothing
+          </Link>
           <button
             type="button"
             onClick={logout}

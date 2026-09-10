@@ -3,6 +3,7 @@ import { useAuth } from './context/AuthContext.jsx'
 import { useLanguage } from './context/LanguageContext.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import NothingDashboard from './pages/NothingDashboard.jsx'
 
 function App() {
   const { authenticated, checking } = useAuth()
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path="/login" element={authenticated ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route path="/" element={authenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
+      <Route path="/nothing" element={authenticated ? <NothingDashboard /> : <Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
