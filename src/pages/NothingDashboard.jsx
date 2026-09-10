@@ -532,35 +532,28 @@ export default function NothingDashboard() {
         </div>
       </header>
 
-      <nav
-        className="flex flex-wrap gap-x-6 gap-y-2 px-6 sm:px-10 py-4 nd-label overflow-x-auto"
-        style={{ color: 'var(--nd-text-secondary)', borderBottom: '1px solid var(--nd-border)' }}
-      >
-        <a href="#subjects" className="hover:opacity-80">[ SUBJECTS ]</a>
-        <a href="#grades" className="hover:opacity-80">GRADES</a>
-        <a href="#portfolio" className="hover:opacity-80">PORTFOLIO</a>
-        <a href="#exams" className="hover:opacity-80">EXAMS</a>
-      </nav>
-
       <div className="nd-dots" style={{ opacity: 0.5 }}>
         <div className="px-6 sm:px-10 pt-12 sm:pt-20 pb-10">
           <div className="nd-label mb-4" style={{ color: 'var(--nd-text-secondary)' }}>
-            OVERALL SUCCESS RATE
+            AVERAGE GRADE
           </div>
           <div className="flex items-end gap-4 flex-wrap">
+            {/* Hero number always renders at full --text-display contrast (not a
+                status color) - it's the one element on the page meant to be read
+                from across the room, so nothing should dilute it. */}
             <span
               className="nd-display"
               style={{
                 fontSize: 'clamp(56px, 13vw, 108px)',
                 lineHeight: 1,
                 letterSpacing: '-0.03em',
-                color: overallPct === null ? 'var(--nd-text-disabled)' : statusColor(overallPct),
+                color: 'var(--nd-text-display)',
               }}
             >
-              {overallPct ?? '--'}
+              {stats?.avg_grade ?? '--'}
             </span>
             <span className="nd-label pb-3" style={{ color: 'var(--nd-text-secondary)' }}>
-              PERCENT
+              OF 5
             </span>
           </div>
           <div className="mt-5 flex flex-wrap gap-x-8 gap-y-1 nd-mono text-sm" style={{ color: 'var(--nd-text-secondary)' }}>
@@ -572,13 +565,17 @@ export default function NothingDashboard() {
 
       <Section id="stats" title="STATS">
         <div className="grid sm:grid-cols-2 gap-x-12">
-          <StatRow label="AVERAGE GRADE" value={stats?.avg_grade ?? '--'} />
+          <StatRow
+            label="OVERALL SUCCESS RATE"
+            value={overallPct === null ? '--' : `${overallPct}%`}
+            color={overallPct === null ? undefined : statusColor(overallPct)}
+          />
           <StatRow label="GRADES LOGGED" value={stats?.grade_count ?? '--'} />
           <StatRow
             label="PORTFOLIO POINTS"
             value={portfolioLoading ? '...' : portfolio?.points ?? '--'}
           />
-          <StatRow label="RANK IN CLASS" value={portfolioLoading ? '...' : portfolio?.place ?? '--'} unit="." />
+          <StatRow label="RANK IN CLASS" value={portfolioLoading ? '...' : portfolio?.place ?? '--'} />
           <StatRow
             label="BEST SUBJECT"
             value={subjectAbbreviation(stats?.best_subject) ?? '--'}
