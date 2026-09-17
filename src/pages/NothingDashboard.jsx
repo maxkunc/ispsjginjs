@@ -233,27 +233,31 @@ function GradesTable({ grades, page, onPage }) {
   if (!grades || grades.length === 0) return <EmptyState text="NO GRADES FOUND" />
   return (
     <div>
+      {/* Subject/date columns stay hidden through sm/md now: this table lives
+          in a half-width column from sm: up (see the exams+grades grid
+          below), and the old sm: reveal point overflowed that halved width -
+          push it out to lg:, where the column is wide enough again. */}
       <div
-        className="hidden sm:flex nd-label gap-3 pb-2"
+        className="hidden lg:flex nd-label gap-2 pb-2"
         style={{ color: 'var(--nd-text-secondary)', borderBottom: '1px solid var(--nd-border-visible)' }}
       >
         <span className="w-8 shrink-0">GR</span>
         <span className="flex-1">NAME</span>
-        <span className="w-40 shrink-0">SUBJECT</span>
-        <span className="w-20 shrink-0">DATE</span>
+        <span className="w-28 shrink-0">SUBJECT</span>
+        <span className="w-16 shrink-0">DATE</span>
         <span className="w-16 shrink-0 text-right">PCT</span>
         <span className="w-14 shrink-0 text-right">PTS</span>
       </div>
       {grades.map((row, i) => (
-        <div key={i} className="flex items-center gap-3 py-2.5 text-xs sm:text-sm" style={{ borderBottom: '1px solid var(--nd-border)' }}>
+        <div key={i} className="flex items-center gap-2 py-2.5 text-xs sm:text-sm" style={{ borderBottom: '1px solid var(--nd-border)' }}>
           <span className="nd-mono w-8 shrink-0" style={{ color: gradeStatusColor(row.grade) }}>
             {row.grade ?? '--'}
           </span>
           <span className="flex-1 min-w-0 truncate">{row.name}</span>
-          <span className="hidden sm:inline w-40 shrink-0 truncate" style={{ color: 'var(--nd-text-secondary)' }}>
+          <span className="hidden lg:inline w-28 shrink-0 truncate" style={{ color: 'var(--nd-text-secondary)' }}>
             {row.subject}
           </span>
-          <span className="hidden sm:inline w-20 shrink-0 nd-mono" style={{ color: 'var(--nd-text-disabled)' }}>
+          <span className="hidden lg:inline w-16 shrink-0 nd-mono" style={{ color: 'var(--nd-text-disabled)' }}>
             {row.date}
           </span>
           <span className="nd-mono w-16 shrink-0 text-right" style={{ color: statusColor(parsePercent(row.percentage)) }}>
@@ -589,19 +593,41 @@ export default function NothingDashboard() {
         </div>
       </Section>
 
-      <Section id="subjects" title="SUBJECTS">
-        {(!data?.subjects || data.subjects.length === 0) && <EmptyState text="NO SUBJECTS FOUND" />}
-        {data?.subjects?.length > 0 && (
-          <div>
-            {data.subjects.map((s) => (
-              <SubjectRow key={s.id} subject={s} />
-            ))}
-          </div>
-        )}
-      </Section>
+      {/* Subjects and Grades run side by side from sm: up, stacked (subjects
+          first) below that. Exams and Portfolio follow, each full-width. */}
+      <div
+        className="px-6 sm:px-10 py-10 sm:py-14 grid grid-cols-1 sm:grid-cols-2 gap-10 sm:gap-16"
+        style={{ borderTop: '1px solid var(--nd-border)' }}
+      >
+        <div id="subjects" className="scroll-mt-16">
+          <h2 className="nd-label mb-6" style={{ color: 'var(--nd-text-secondary)' }}>
+            SUBJECTS
+          </h2>
+          {(!data?.subjects || data.subjects.length === 0) && <EmptyState text="NO SUBJECTS FOUND" />}
+          {data?.subjects?.length > 0 && (
+            <div>
+              {data.subjects.map((s) => (
+                <SubjectRow key={s.id} subject={s} />
+              ))}
+            </div>
+          )}
+        </div>
 
-      <Section id="grades" title="RECENT GRADES">
-        <GradesTable grades={data?.grades} page={data?.page} onPage={setPage} />
+        <div id="grades" className="scroll-mt-16">
+          <h2 className="nd-label mb-6" style={{ color: 'var(--nd-text-secondary)' }}>
+            RECENT GRADES
+          </h2>
+          <GradesTable grades={data?.grades} page={data?.page} onPage={setPage} />
+        </div>
+      </div>
+
+      <Section id="exams" title="EXAMS">
+        <ExamsSection
+          exams={zkouseniData?.exams}
+          loading={zkouseniLoading}
+          error={zkouseniError}
+          onRetry={refreshZkouseni}
+        />
       </Section>
 
       <Section id="portfolio" title="PORTFOLIO">
@@ -610,15 +636,6 @@ export default function NothingDashboard() {
           loading={portfolioLoading}
           error={portfolioError}
           onRetry={refreshPortfolio}
-        />
-      </Section>
-
-      <Section id="exams" title="EXAMS">
-        <ExamsSection
-          exams={zkouseniData?.exams}
-          loading={zkouseniLoading}
-          error={zkouseniError}
-          onRetry={refreshZkouseni}
         />
       </Section>
 
