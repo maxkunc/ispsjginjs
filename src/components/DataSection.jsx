@@ -93,8 +93,11 @@ function GradesTable({ grades, page, t, onPage }) {
               <span className="grade-dot-center">{row.grade ?? '–'}</span>
             </span>
             <span className="flex-1 min-w-0 truncate">{row.name}</span>
-            <span className="text-black/40 hidden sm:inline truncate max-w-[30%]">{row.subject}</span>
-            <span className="text-black/40 hidden sm:inline">{row.date}</span>
+            {/* Subject/date reveal at lg:, not sm: - this table now pairs with
+                Subjects in a half-width column from md: up, and sm: overflowed
+                that halved width (same issue hit and fixed on /nothing). */}
+            <span className="text-black/40 hidden lg:inline truncate max-w-[30%]">{row.subject}</span>
+            <span className="text-black/40 hidden lg:inline">{row.date}</span>
             <DotNumber value={row.percentage} className="text-right shrink-0 whitespace-nowrap" />
             <DotNumber value={row.points} className="text-right shrink-0 whitespace-nowrap text-black/50" />
           </div>
@@ -225,14 +228,14 @@ export default function DataSection({
         )}
       </section>
 
-      <section id="exams" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
-        <h2 className="font-dots text-lg mb-3">{t('navExams')}</h2>
-        <ExamsPanel exams={exams} loading={examsLoading} error={examsError} onRetry={onExamsRetry} t={t} />
-      </section>
-
-      <section className="rounded-[28px] bg-white p-5 sm:p-6 md:col-span-2 scroll-mt-6">
+      <section id="grades" className="rounded-[28px] bg-white p-5 sm:p-6 scroll-mt-6">
         <h2 className="font-dots text-lg mb-3">{t('gradesPanel')}</h2>
         <GradesTable grades={home?.grades} page={home?.page} t={t} onPage={onPage} />
+      </section>
+
+      <section id="exams" className="rounded-[28px] bg-white p-5 sm:p-6 md:col-span-2 scroll-mt-6">
+        <h2 className="font-dots text-lg mb-3">{t('navExams')}</h2>
+        <ExamsPanel exams={exams} loading={examsLoading} error={examsError} onRetry={onExamsRetry} t={t} />
       </section>
 
       <section id="portfolio" className="rounded-[28px] bg-white p-5 sm:p-6 md:col-span-2 scroll-mt-6">
