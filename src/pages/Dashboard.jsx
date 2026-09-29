@@ -23,7 +23,7 @@ const HALF_ALWAYS = 'col-span-6 lg:col-span-6'
 export default function Dashboard() {
   const { logout } = useAuth()
   const { t } = useLanguage()
-  const { data, loading, error, setPage, refresh, switchSemester } = useHomeData()
+  const { data, recentGrades, loading, error, setPage, refresh, switchSemester } = useHomeData()
   // Wait for home to resolve before firing portfolio/zkouseni: it's what
   // populates the backend's cached studentId and the real semester number,
   // so firing earlier used to both race a redundant upstream fetch and
@@ -176,7 +176,7 @@ export default function Dashboard() {
             footer={t('overallSub')}
           />
 
-          <ScheduleWidget className="col-span-12 order-5 sm:order-3" grades={data?.grades} t={t} />
+          <ScheduleWidget className="col-span-12 order-5 sm:order-3" grades={recentGrades} t={t} />
 
           <HeroCard className="col-span-12 order-4" studentLabel={studentLabel} />
 
