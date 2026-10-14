@@ -6,9 +6,16 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false)
   const [checking, setChecking] = useState(true)
+  // Flips true if the initial session check is still pending after a few
+  // seconds, so the loading screen can tell the user this might be a Render
+  // cold start instead of just sitting there looking stuck.
+  const [wakingUp, setWakingUp] = useState(false)
 
   useEffect(() => {
     let cancelled = false
+    const wakingUpTimer = setTimeout(() => {
+      if (!cancelled) setWakingUp(true)
+    }, 4000)
     api
       .session()
       .then((res) => {
@@ -18,10 +25,14 @@ export function AuthProvider({ children }) {
         if (!cancelled) setAuthenticated(false)
       })
       .finally(() => {
-        if (!cancelled) setChecking(false)
+        if (!cancelled) {
+          setChecking(false)
+          setWakingUp(false)
+        }
       })
     return () => {
       cancelled = true
+      clearTimeout(wakingUpTimer)
     }
   }, [])
 
@@ -39,8 +50,8 @@ export function AuthProvider({ children }) {
   }, [])
 
   const value = useMemo(
-    () => ({ authenticated, checking, login, logout }),
-    [authenticated, checking, login, logout],
+    () => ({ authenticated, checking, wakingUp, login, logout }),
+    [authenticated, checking, wakingUp, login, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

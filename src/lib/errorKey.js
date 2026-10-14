@@ -8,6 +8,7 @@ const CODE_TO_I18N_KEY = {
   ssl_error: 'errorUpstream',
   connection_error: 'errorConnection',
   not_authenticated: 'errorUnknown',
+  timeout: 'errorTimeout',
 }
 
 export function errorToI18nKey(err) {

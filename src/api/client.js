@@ -3,6 +3,15 @@
 // the session cookie back and forth.
 const BASE_URL = import.meta.env.VITE_API_URL || '/api'
 
+// Render's free tier spins this service down after ~15min idle, so the first
+// request after a while can be a cold start. Without a client-side timeout, a
+// fetch that never gets a response (the backend container still booting, or
+// Render's edge holding the connection open) hangs forever with zero
+// feedback - the loading screen just sits there looking broken. Bounding it
+// means the UI always reaches a terminal state and can tell the user what's
+// actually happening.
+const REQUEST_TIMEOUT_MS = 45000
+
 class ApiError extends Error {
   constructor(message, { status, code } = {}) {
     super(message)
@@ -12,11 +21,25 @@ class ApiError extends Error {
 }
 
 async function request(path, options = {}) {
-  const response = await fetch(`${BASE_URL}${path}`, {
-    credentials: 'include',
-    headers: options.body ? { 'Content-Type': 'application/json' } : undefined,
-    ...options,
-  })
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+  let response
+  try {
+    response = await fetch(`${BASE_URL}${path}`, {
+      credentials: 'include',
+      headers: options.body ? { 'Content-Type': 'application/json' } : undefined,
+      signal: controller.signal,
+      ...options,
+    })
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new ApiError('timeout')
+    }
+    throw err
+  } finally {
+    clearTimeout(timeoutId)
+  }
 
   let payload = null
   try {
