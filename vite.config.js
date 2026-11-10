@@ -17,8 +17,8 @@ export default defineConfig({
         description: 'is.psjg.cz grades dashboard',
         start_url: '/',
         display: 'standalone',
-        background_color: '#e8e6e1',
-        theme_color: '#e8e6e1',
+        background_color: '#000000',
+        theme_color: '#000000',
         lang: 'en',
         icons: [
           { src: '/icons/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
